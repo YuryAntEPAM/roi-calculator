@@ -30,25 +30,31 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">ROI Calculator</h1>
-        <p className="app-subtitle">Enter your numbers to see your return on investment instantly</p>
+        <div className="epam-logo-box">EPAM</div>
+        <div className="header-divider" />
+        <div>
+          <h1 className="app-title">ROI Calculator</h1>
+          <p className="app-subtitle">Enter your numbers to see your return on investment instantly</p>
+        </div>
       </header>
 
-      <main className="app-layout">
-        <aside className="app-sidebar">
-          <InputForm values={values} onChange={setValues} />
-        </aside>
+      <div className="app-content">
+        <main className="app-layout">
+          <aside className="app-sidebar">
+            <InputForm values={values} onChange={setValues} />
+          </aside>
 
-        <section className="app-main">
-          <Results
-            roi={roi}
-            paybackPeriod={paybackPeriod}
-            totalNetProfit={totalNetProfit}
-            monthlyNetProfit={monthlyNetProfit}
-          />
-          <CashFlowChart data={chartData} />
-        </section>
-      </main>
+          <section className="app-main">
+            <Results
+              roi={roi}
+              paybackPeriod={paybackPeriod}
+              totalNetProfit={totalNetProfit}
+              monthlyNetProfit={monthlyNetProfit}
+            />
+            <CashFlowChart data={chartData} />
+          </section>
+        </main>
+      </div>
     </div>
   );
 }

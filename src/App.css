@@ -5,19 +5,21 @@
   box-sizing: border-box;
 }
 
-/* ── Warm Professional Theme ────────────────────────
-   Accent:     #f59e0b  (amber)
-   Background: #fffbeb  (warm cream)
-   Surface:    #ffffff
-   Text:       #1c1917  (warm near-black)
-   Muted:      #78716c
-   Border:     #e7e5e4
+/* ── EPAM Brand Theme ───────────────────────────────
+   Primary blue:   #39f   (#3399ff)
+   Dark navy:      #1a1a2e
+   Surface:        #ffffff
+   Background:     #f4f5f7
+   Text:           #1a1a2e
+   Muted:          #6b7280
+   Border:         #e2e4e9
+   Accent light:   #e8f3ff
 ──────────────────────────────────────────────────── */
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background-color: #fffbeb;
-  color: #1c1917;
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f4f5f7;
+  color: #1a1a2e;
   min-height: 100vh;
 }
 
@@ -25,32 +27,59 @@ body {
 .app {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 0 0 4rem;
 }
 
 /* ── Header ─────────────────────────────────────────── */
 .app-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
+  background-color: #1a1a2e;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.epam-logo-box {
+  background-color: #39f;
+  color: #ffffff;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.65rem;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.header-divider {
+  width: 1px;
+  height: 1.75rem;
+  background-color: #3a3a5c;
+  flex-shrink: 0;
 }
 
 .app-title {
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #1c1917;
-  letter-spacing: -0.02em;
+  color: #ffffff;
+  letter-spacing: -0.01em;
 }
 
 .app-subtitle {
-  margin-top: 0.4rem;
-  font-size: 1rem;
-  color: #78716c;
+  margin-top: 0.2rem;
+  font-size: 0.8125rem;
+  color: #8b93a7;
+}
+
+/* ── Content wrapper ────────────────────────────────── */
+.app-content {
+  padding: 0 2rem;
 }
 
 /* ── Two-column layout ──────────────────────────────── */
 .app-layout {
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 320px 1fr;
   gap: 1.5rem;
   align-items: start;
 }
@@ -58,6 +87,14 @@ body {
 @media (max-width: 768px) {
   .app-layout {
     grid-template-columns: 1fr;
+  }
+
+  .app-header {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .app-content {
+    padding: 0 1rem;
   }
 }
 
@@ -70,19 +107,22 @@ body {
 /* ── Card ────────────────────────────────────────────── */
 .card {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 1.75rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07), 0 4px 16px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e7e5e4;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e4e9;
+  border-top: 3px solid #39f;
 }
 
 .card-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #1c1917;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6b7280;
   margin-bottom: 1.25rem;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid #fef3c7;
+  border-bottom: 1px solid #e2e4e9;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
 }
 
 /* ── Form ────────────────────────────────────────────── */
@@ -96,21 +136,23 @@ body {
 
 .form-label {
   display: block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #44403c;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #374151;
   margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .form-input {
   width: 100%;
-  padding: 0.6rem 0.85rem;
-  font-size: 1rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.9375rem;
   font-family: inherit;
-  color: #1c1917;
-  background: #fffbeb;
-  border: 1.5px solid #d6d3d1;
-  border-radius: 8px;
+  color: #1a1a2e;
+  background: #ffffff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 2px;
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
   appearance: none;
@@ -118,15 +160,18 @@ body {
 }
 
 .form-input:focus {
-  border-color: #f59e0b;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
-  background: #ffffff;
+  border-color: #39f;
+  box-shadow: 0 0 0 3px rgba(51, 153, 255, 0.15);
+}
+
+.form-input:hover:not(:focus) {
+  border-color: #9ca3af;
 }
 
 .form-select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2378716c' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.85rem center;
+  background-position: right 0.875rem center;
   padding-right: 2.5rem;
   cursor: pointer;
 }
@@ -145,58 +190,63 @@ body {
 }
 
 .metric-card {
-  background: #fef9ee;
-  border: 1.5px solid #fde68a;
-  border-radius: 10px;
+  background: #f4f5f7;
+  border: 1px solid #e2e4e9;
+  border-left: 3px solid #d1d5db;
+  border-radius: 2px;
   padding: 1rem 1.125rem;
 }
 
 .metric-card--highlight {
-  background: #f59e0b;
-  border-color: #d97706;
-  color: #ffffff;
+  background: #1a1a2e;
+  border: 1px solid #1a1a2e;
+  border-left: 3px solid #39f;
 }
 
 .metric-value {
-  font-size: 1.5rem;
+  font-size: 1.625rem;
   font-weight: 700;
-  color: inherit;
-  line-height: 1.2;
+  color: #1a1a2e;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .metric-card--highlight .metric-value {
-  color: #ffffff;
+  color: #39f;
 }
 
 .metric-label {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #78716c;
-  margin-top: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #6b7280;
+  margin-top: 0.35rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.07em;
 }
 
 .metric-card--highlight .metric-label {
-  color: rgba(255, 255, 255, 0.85);
+  color: #8b93a7;
 }
 
 /* ── Chart tooltip ───────────────────────────────────── */
 .chart-tooltip {
-  background: #1c1917;
-  border-radius: 8px;
-  padding: 0.6rem 0.9rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #1a1a2e;
+  border-radius: 2px;
+  padding: 0.625rem 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-left: 3px solid #39f;
 }
 
 .chart-tooltip-month {
-  font-size: 0.75rem;
-  color: #a8a29e;
+  font-size: 0.7rem;
+  color: #8b93a7;
   margin-bottom: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
 }
 
 .chart-tooltip-value {
   font-size: 1rem;
-  font-weight: 600;
-  color: #fef3c7;
+  font-weight: 700;
+  color: #39f;
 }

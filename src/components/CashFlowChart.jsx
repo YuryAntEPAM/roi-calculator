@@ -9,8 +9,8 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-// Warm Professional accent color
-const ACCENT = '#f59e0b';
+// EPAM brand blue
+const ACCENT = '#39f';
 
 function formatYAxis(value) {
   if (Math.abs(value) >= 1000) {
@@ -40,7 +40,7 @@ function CashFlowChart({ data }) {
       <h2 className="card-title">Cumulative Cash Flow</h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data} margin={{ top: 10, right: 20, left: 10, bottom: 10 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5d9b6" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e2e4e9" />
           <XAxis
             dataKey="month"
             label={{ value: 'Month', position: 'insideBottomRight', offset: -10, fontSize: 12 }}
