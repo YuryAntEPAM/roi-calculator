@@ -6,11 +6,12 @@ import {
   CartesianGrid,
   Tooltip,
   ReferenceLine,
+  Legend,
   ResponsiveContainer,
 } from 'recharts';
 
-// EPAM brand blue
-const ACCENT = '#39f';
+const SCENARIO1_COLOR = '#39f';
+const SCENARIO2_COLOR = '#f59e0b';
 
 function formatYAxis(value) {
   if (Math.abs(value) >= 1000) {
@@ -19,22 +20,58 @@ function formatYAxis(value) {
   return '$' + value;
 }
 
-function CustomTooltip({ active, payload, label }) {
+function CustomTooltip({ active, payload, label, comparisonMode }) {
   if (active && payload && payload.length) {
-    const value = payload[0].value;
-    const formatted =
-      '$' + Math.round(value).toLocaleString('en-US');
     return (
       <div className="chart-tooltip">
         <p className="chart-tooltip-month">Month {label}</p>
-        <p className="chart-tooltip-value">{formatted}</p>
+        {payload.map((entry) => (
+          <p
+            key={entry.dataKey}
+            className="chart-tooltip-value"
+            style={{ color: entry.color }}
+          >
+            {comparisonMode
+              ? (entry.dataKey === 'cashFlow' ? 'Scenario 1: ' : 'Scenario 2: ')
+              : ''}
+            {'$' + Math.round(entry.value).toLocaleString('en-US')}
+          </p>
+        ))}
       </div>
     );
   }
   return null;
 }
 
-function CashFlowChart({ data }) {
+function renderLegend(props) {
+  const { payload } = props;
+  return (
+    <div className="chart-legend">
+      {payload.map((entry) => (
+        <span key={entry.value} className="chart-legend-item">
+          <span
+            className="chart-legend-dot"
+            style={{ background: entry.color }}
+          />
+          {entry.value}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function CashFlowChart({ data, comparisonMode, disabled }) {
+  if (disabled) {
+    return (
+      <div className="card results-disabled">
+        <h2 className="card-title">Cumulative Cash Flow</h2>
+        <div className="results-disabled-message">
+          Fix the errors in the form to see the chart.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="card">
       <h2 className="card-title">Cumulative Cash Flow</h2>
@@ -47,16 +84,42 @@ function CashFlowChart({ data }) {
             tick={{ fontSize: 12 }}
           />
           <YAxis tickFormatter={formatYAxis} tick={{ fontSize: 12 }} width={60} />
-          <Tooltip content={<CustomTooltip />} />
-          <ReferenceLine y={0} stroke="#9ca3af" strokeDasharray="6 3" label={{ value: 'Break-even', position: 'insideTopLeft', fontSize: 11, fill: '#9ca3af' }} />
+          <Tooltip content={<CustomTooltip comparisonMode={comparisonMode} />} />
+          {comparisonMode && (
+            <Legend
+              content={renderLegend}
+              payload={[
+                { value: 'Scenario 1', color: SCENARIO1_COLOR },
+                { value: 'Scenario 2', color: SCENARIO2_COLOR },
+              ]}
+            />
+          )}
+          <ReferenceLine
+            y={0}
+            stroke="#9ca3af"
+            strokeDasharray="6 3"
+            label={{ value: 'Break-even', position: 'insideTopLeft', fontSize: 11, fill: '#9ca3af' }}
+          />
           <Line
             type="monotone"
             dataKey="cashFlow"
-            stroke={ACCENT}
+            name="Scenario 1"
+            stroke={SCENARIO1_COLOR}
             strokeWidth={2.5}
             dot={false}
-            activeDot={{ r: 5, fill: ACCENT }}
+            activeDot={{ r: 5, fill: SCENARIO1_COLOR }}
           />
+          {comparisonMode && (
+            <Line
+              type="monotone"
+              dataKey="cashFlow2"
+              name="Scenario 2"
+              stroke={SCENARIO2_COLOR}
+              strokeWidth={2.5}
+              dot={false}
+              activeDot={{ r: 5, fill: SCENARIO2_COLOR }}
+            />
+          )}
         </LineChart>
       </ResponsiveContainer>
     </div>

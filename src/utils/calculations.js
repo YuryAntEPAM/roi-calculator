@@ -39,3 +39,26 @@ export function buildChartData(monthlyNetProfit, initialInvestment, period) {
 export function formatCurrency(value) {
   return '$' + Math.round(value).toLocaleString('en-US');
 }
+
+/**
+ * Builds row data for the monthly breakdown table.
+ * Each row has raw numbers so the component can format and highlight independently.
+ * isBreakEven is true for the first month where cumulative cash flow crosses $0.
+ */
+export function buildTableData(monthlyRevenue, monthlyCosts, initialInvestment, period) {
+  const monthlyNetProfit = monthlyRevenue - monthlyCosts;
+  const rows = [];
+  for (let month = 1; month <= period; month++) {
+    const cumulativeCashFlow = calcCumulativeCashFlow(monthlyNetProfit, initialInvestment, month);
+    const prevCashFlow = calcCumulativeCashFlow(monthlyNetProfit, initialInvestment, month - 1);
+    rows.push({
+      month,
+      monthlyRevenue,
+      monthlyCosts,
+      netProfit: monthlyNetProfit,
+      cumulativeCashFlow,
+      isBreakEven: cumulativeCashFlow >= 0 && prevCashFlow < 0,
+    });
+  }
+  return rows;
+}
