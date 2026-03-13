@@ -3,6 +3,7 @@ import InputForm from './components/InputForm';
 import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
 import MonthlyTable from './components/MonthlyTable';
+import PrintReport from './components/PrintReport';
 import {
   calcMonthlyNetProfit,
   calcPaybackPeriod,
@@ -13,6 +14,7 @@ import {
 } from './utils/calculations';
 import { validateValues, isValid } from './utils/validation';
 import './App.css';
+import './print.css';
 
 const DEFAULT_VALUES = {
   initialInvestment: 100000,
@@ -78,10 +80,18 @@ function App() {
       <header className="app-header">
         <div className="epam-logo-box">EPAM</div>
         <div className="header-divider" />
-        <div>
+        <div className="header-text">
           <h1 className="app-title">ROI Calculator</h1>
           <p className="app-subtitle">Enter your numbers to see your return on investment instantly</p>
         </div>
+        <button
+          className="btn-export-pdf"
+          onClick={() => window.print()}
+          disabled={resultsDisabled}
+          title={resultsDisabled ? 'Fix form errors before exporting' : 'Save as PDF'}
+        >
+          Export PDF
+        </button>
       </header>
 
       <div className="app-content">
@@ -141,6 +151,24 @@ function App() {
           </section>
         </main>
       </div>
+
+      <PrintReport
+        values={values}
+        roi={roi}
+        paybackPeriod={paybackPeriod}
+        totalNetProfit={totalNetProfit}
+        monthlyNetProfit={monthlyNetProfit}
+        chartData={chartData}
+        tableData={tableData}
+        comparisonMode={comparisonMode}
+        values2={{ ...values2, period: values.period }}
+        roi2={roi2}
+        paybackPeriod2={paybackPeriod2}
+        totalNetProfit2={totalNetProfit2}
+        monthlyNetProfit2={monthlyNetProfit2}
+        chartData2={chartData2}
+        tableData2={tableData2}
+      />
     </div>
   );
 }

@@ -570,3 +570,38 @@ body {
   color: #dc2626;
   font-weight: 600;
 }
+
+/* ── Print report — hidden on screen, shown only by @media print ─────── */
+.print-report {
+  display: none;
+}
+
+/* ── Export PDF button in the header ─────────────────────────────────── */
+.header-text {
+  flex: 1;
+}
+
+.btn-export-pdf {
+  margin-left: auto;
+  padding: 0.5rem 1.125rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: 0.04em;
+  color: #1a1a2e;
+  background: #39f;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.btn-export-pdf:hover:not(:disabled) {
+  background: #1a8cff;
+}
+
+.btn-export-pdf:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

@@ -1,0 +1,246 @@
+/* ── Print / Export-PDF styles ──────────────────────────────────────────
+   These rules only apply when the browser's print dialog is active
+   (including "Save as PDF" from the browser menu, or window.print()).
+   ──────────────────────────────────────────────────────────────────── */
+
+@media print {
+  /* Hide everything except the print report */
+  body > * {
+    display: none !important;
+  }
+
+  /* Reveal the print report (it lives inside #root > .app) */
+  body,
+  #root,
+  #root .app {
+    display: block !important;
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Show only the print report, hide the rest of the app */
+  #root .app > *:not(.print-report) {
+    display: none !important;
+  }
+
+  .print-report {
+    display: block !important;
+  }
+
+  /* General page settings */
+  @page {
+    margin: 1.5cm 2cm;
+    size: A4 portrait;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+/* ── Print report component styles ─────────────────────────────────────
+   These classes are used inside PrintReport.jsx.
+   Scoped so they don't conflict with the main app.
+   ──────────────────────────────────────────────────────────────────── */
+
+/* Header */
+.pr-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #1a1a2e;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.pr-logo {
+  background: #3399ff;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.6rem;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.pr-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.pr-date {
+  font-size: 0.75rem;
+  color: #8b93a7;
+  margin-top: 0.15rem;
+}
+
+/* Sections */
+.pr-section {
+  margin-bottom: 1.5rem;
+  page-break-inside: avoid;
+}
+
+.pr-section--chart {
+  page-break-inside: avoid;
+}
+
+.pr-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  border-bottom: 2px solid #3399ff;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Parameters table */
+.pr-params-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.pr-params-table tr {
+  border-bottom: 1px solid #e2e4e9;
+}
+
+.pr-param-label {
+  padding: 0.4rem 0.5rem 0.4rem 0;
+  color: #374151;
+  font-weight: 600;
+  width: 55%;
+}
+
+.pr-param-value {
+  padding: 0.4rem 0;
+  color: #1a1a2e;
+  font-weight: 700;
+}
+
+/* Metrics table */
+.pr-metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.pr-metrics-table tr {
+  border-bottom: 1px solid #e2e4e9;
+}
+
+.pr-metric-label {
+  padding: 0.45rem 0.5rem 0.45rem 0;
+  color: #374151;
+  font-weight: 600;
+  width: 55%;
+}
+
+.pr-metric-value {
+  padding: 0.45rem 0;
+  color: #1a1a2e;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.pr-metric-value--highlight {
+  color: #3399ff;
+  font-size: 1.1rem;
+}
+
+.pr-metric-value--highlight2 {
+  color: #f59e0b;
+  font-size: 1.1rem;
+}
+
+/* Chart legend */
+.pr-chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+.pr-legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Monthly breakdown table */
+.pr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.pr-table th {
+  background: #1a1a2e;
+  color: #8b93a7;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 0.45rem 0.6rem;
+  text-align: left;
+  border-bottom: 2px solid #3399ff;
+}
+
+.pr-table td {
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid #e2e4e9;
+  color: #1a1a2e;
+}
+
+.pr-table tr:nth-child(even) td {
+  background: #f4f5f7;
+}
+
+.pr-row--breakeven td {
+  background: #dcfce7 !important;
+  color: #166534;
+  font-weight: 600;
+  border-bottom-color: #86efac;
+}
+
+.pr-breakeven-badge {
+  display: inline-block;
+  margin-left: 0.35rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: #16a34a;
+  color: #fff;
+  border-radius: 2px;
+  padding: 0.1rem 0.3rem;
+  vertical-align: middle;
+}
+
+.pr-cell--center {
+  text-align: center;
+}
+
+.pr-cell--positive {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.pr-cell--negative {
+  color: #dc2626;
+  font-weight: 600;
+}
