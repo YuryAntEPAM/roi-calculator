@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { formatCurrency } from '../utils/calculations';
 
-function MonthlyTable({ rows, disabled, comparisonMode, rows2 }) {
+function MonthlyTable({ rows, disabled, comparisonMode, rows2, symbol = '$' }) {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -22,9 +22,9 @@ function MonthlyTable({ rows, disabled, comparisonMode, rows2 }) {
       {visible && !disabled && (
         <div className="table-scroll">
           {comparisonMode ? (
-            <ComparisonTable rows={rows} rows2={rows2} />
+            <ComparisonTable rows={rows} rows2={rows2} symbol={symbol} />
           ) : (
-            <SingleTable rows={rows} />
+            <SingleTable rows={rows} symbol={symbol} />
           )}
         </div>
       )}
@@ -38,7 +38,7 @@ function MonthlyTable({ rows, disabled, comparisonMode, rows2 }) {
   );
 }
 
-function SingleTable({ rows }) {
+function SingleTable({ rows, symbol = '$' }) {
   return (
     <table className="breakdown-table">
       <thead>
@@ -68,13 +68,13 @@ function SingleTable({ rows }) {
                 <span className="breakeven-badge">Break-even</span>
               ) : null}
             </td>
-            <td>{formatCurrency(row.monthlyRevenue)}</td>
-            <td>{formatCurrency(row.monthlyCosts)}</td>
+            <td>{formatCurrency(row.monthlyRevenue, symbol)}</td>
+            <td>{formatCurrency(row.monthlyCosts, symbol)}</td>
             <td className={row.netProfit >= 0 ? 'table-cell--positive' : 'table-cell--negative'}>
-              {formatCurrency(row.netProfit)}
+              {formatCurrency(row.netProfit, symbol)}
             </td>
             <td className={row.cumulativeCashFlow >= 0 ? 'table-cell--positive' : 'table-cell--negative'}>
-              {formatCurrency(row.cumulativeCashFlow)}
+              {formatCurrency(row.cumulativeCashFlow, symbol)}
             </td>
           </tr>
         ))}
@@ -83,7 +83,7 @@ function SingleTable({ rows }) {
   );
 }
 
-function ComparisonTable({ rows, rows2 }) {
+function ComparisonTable({ rows, rows2, symbol = '$' }) {
   return (
     <table className="breakdown-table">
       <thead>
@@ -124,23 +124,23 @@ function ComparisonTable({ rows, rows2 }) {
                   <span className="breakeven-badge">Break-even</span>
                 ) : null}
               </td>
-              <td>{formatCurrency(row.monthlyRevenue)}</td>
-              <td>{formatCurrency(row.monthlyCosts)}</td>
+              <td>{formatCurrency(row.monthlyRevenue, symbol)}</td>
+              <td>{formatCurrency(row.monthlyCosts, symbol)}</td>
               <td className={row.netProfit >= 0 ? 'table-cell--positive' : 'table-cell--negative'}>
-                {formatCurrency(row.netProfit)}
+                {formatCurrency(row.netProfit, symbol)}
               </td>
               <td className={row.cumulativeCashFlow >= 0 ? 'table-cell--positive' : 'table-cell--negative'}>
-                {formatCurrency(row.cumulativeCashFlow)}
+                {formatCurrency(row.cumulativeCashFlow, symbol)}
               </td>
               {row2 ? (
                 <>
-                  <td>{formatCurrency(row2.monthlyRevenue)}</td>
-                  <td>{formatCurrency(row2.monthlyCosts)}</td>
+                  <td>{formatCurrency(row2.monthlyRevenue, symbol)}</td>
+                  <td>{formatCurrency(row2.monthlyCosts, symbol)}</td>
                   <td className={row2.netProfit >= 0 ? 'table-cell--positive' : 'table-cell--negative'}>
-                    {formatCurrency(row2.netProfit)}
+                    {formatCurrency(row2.netProfit, symbol)}
                   </td>
                   <td className={row2.cumulativeCashFlow >= 0 ? 'table-cell--positive' : 'table-cell--negative'}>
-                    {formatCurrency(row2.cumulativeCashFlow)}
+                    {formatCurrency(row2.cumulativeCashFlow, symbol)}
                   </td>
                 </>
               ) : (

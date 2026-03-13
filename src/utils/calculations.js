@@ -36,8 +36,8 @@ export function buildChartData(monthlyNetProfit, initialInvestment, period) {
   return data;
 }
 
-export function formatCurrency(value) {
-  return '$' + Math.round(value).toLocaleString('en-US');
+export function formatCurrency(value, symbol = '$') {
+  return symbol + Math.round(value).toLocaleString('en-US');
 }
 
 /**

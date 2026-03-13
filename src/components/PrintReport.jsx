@@ -30,6 +30,9 @@ function PrintReport({
   monthlyNetProfit2,
   chartData2,
   tableData2,
+  // currency
+  symbol = '$',
+  currencyCode = 'USD',
 }) {
   const today = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -68,15 +71,15 @@ function PrintReport({
           <tbody>
             <tr>
               <td className="pr-param-label">Initial Investment</td>
-              <td className="pr-param-value">{formatCurrency(values.initialInvestment)}</td>
+              <td className="pr-param-value">{formatCurrency(values.initialInvestment, symbol)}</td>
             </tr>
             <tr>
               <td className="pr-param-label">Expected Monthly Revenue</td>
-              <td className="pr-param-value">{formatCurrency(values.monthlyRevenue)}</td>
+              <td className="pr-param-value">{formatCurrency(values.monthlyRevenue, symbol)}</td>
             </tr>
             <tr>
               <td className="pr-param-label">Monthly Operating Costs</td>
-              <td className="pr-param-value">{formatCurrency(values.monthlyCosts)}</td>
+              <td className="pr-param-value">{formatCurrency(values.monthlyCosts, symbol)}</td>
             </tr>
             <tr>
               <td className="pr-param-label">Calculation Period</td>
@@ -93,15 +96,15 @@ function PrintReport({
             <tbody>
               <tr>
                 <td className="pr-param-label">Initial Investment</td>
-                <td className="pr-param-value">{formatCurrency(values2.initialInvestment)}</td>
+                <td className="pr-param-value">{formatCurrency(values2.initialInvestment, symbol)}</td>
               </tr>
               <tr>
                 <td className="pr-param-label">Expected Monthly Revenue</td>
-                <td className="pr-param-value">{formatCurrency(values2.monthlyRevenue)}</td>
+                <td className="pr-param-value">{formatCurrency(values2.monthlyRevenue, symbol)}</td>
               </tr>
               <tr>
                 <td className="pr-param-label">Monthly Operating Costs</td>
-                <td className="pr-param-value">{formatCurrency(values2.monthlyCosts)}</td>
+                <td className="pr-param-value">{formatCurrency(values2.monthlyCosts, symbol)}</td>
               </tr>
               <tr>
                 <td className="pr-param-label">Calculation Period</td>
@@ -129,11 +132,11 @@ function PrintReport({
             </tr>
             <tr>
               <td className="pr-metric-label">Total Net Profit</td>
-              <td className="pr-metric-value">{formatCurrency(totalNetProfit)}</td>
+              <td className="pr-metric-value">{formatCurrency(totalNetProfit, symbol)}</td>
             </tr>
             <tr>
               <td className="pr-metric-label">Monthly Net Profit</td>
-              <td className="pr-metric-value">{formatCurrency(monthlyNetProfit)}</td>
+              <td className="pr-metric-value">{formatCurrency(monthlyNetProfit, symbol)}</td>
             </tr>
           </tbody>
         </table>
@@ -154,11 +157,11 @@ function PrintReport({
               </tr>
               <tr>
                 <td className="pr-metric-label">Total Net Profit</td>
-                <td className="pr-metric-value">{formatCurrency(totalNetProfit2)}</td>
-              </tr>
-              <tr>
-                <td className="pr-metric-label">Monthly Net Profit</td>
-                <td className="pr-metric-value">{formatCurrency(monthlyNetProfit2)}</td>
+              <td className="pr-metric-value">{formatCurrency(totalNetProfit2, symbol)}</td>
+            </tr>
+            <tr>
+              <td className="pr-metric-label">Monthly Net Profit</td>
+              <td className="pr-metric-value">{formatCurrency(monthlyNetProfit2, symbol)}</td>
               </tr>
             </tbody>
           </table>
@@ -185,7 +188,7 @@ function PrintReport({
             tick={{ fontSize: 11 }}
             width={65}
             tickFormatter={(v) =>
-              Math.abs(v) >= 1000 ? '$' + (v / 1000).toFixed(0) + 'k' : '$' + v
+              Math.abs(v) >= 1000 ? symbol + (v / 1000).toFixed(0) + 'k' : symbol + v
             }
           />
           <ReferenceLine
@@ -227,20 +230,20 @@ function PrintReport({
         <h2 className="pr-section-title">
           {comparisonMode ? 'Monthly Breakdown — Scenario 1' : 'Monthly Breakdown'}
         </h2>
-        <PrintTable rows={tableData} />
+        <PrintTable rows={tableData} symbol={symbol} />
       </section>
 
       {comparisonMode && tableData2 && (
         <section className="pr-section">
           <h2 className="pr-section-title">Monthly Breakdown — Scenario 2</h2>
-          <PrintTable rows={tableData2} />
+          <PrintTable rows={tableData2} symbol={symbol} />
         </section>
       )}
     </div>
   );
 }
 
-function PrintTable({ rows }) {
+function PrintTable({ rows, symbol = '$' }) {
   return (
     <table className="pr-table">
       <thead>
@@ -259,13 +262,13 @@ function PrintTable({ rows }) {
               {row.month}
               {row.isBreakEven ? <span className="pr-breakeven-badge">Break-even</span> : null}
             </td>
-            <td>{formatCurrency(row.monthlyRevenue)}</td>
-            <td>{formatCurrency(row.monthlyCosts)}</td>
+            <td>{formatCurrency(row.monthlyRevenue, symbol)}</td>
+            <td>{formatCurrency(row.monthlyCosts, symbol)}</td>
             <td className={row.netProfit >= 0 ? 'pr-cell--positive' : 'pr-cell--negative'}>
-              {formatCurrency(row.netProfit)}
+              {formatCurrency(row.netProfit, symbol)}
             </td>
             <td className={row.cumulativeCashFlow >= 0 ? 'pr-cell--positive' : 'pr-cell--negative'}>
-              {formatCurrency(row.cumulativeCashFlow)}
+              {formatCurrency(row.cumulativeCashFlow, symbol)}
             </td>
           </tr>
         ))}

@@ -18,14 +18,14 @@ function getCSSVar(name) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
-function formatYAxis(value) {
+function formatYAxis(value, symbol) {
   if (Math.abs(value) >= 1000) {
-    return '$' + (value / 1000).toFixed(0) + 'k';
+    return symbol + (value / 1000).toFixed(0) + 'k';
   }
-  return '$' + value;
+  return symbol + value;
 }
 
-function CustomTooltip({ active, payload, label, comparisonMode }) {
+function CustomTooltip({ active, payload, label, comparisonMode, symbol = '$' }) {
   if (active && payload && payload.length) {
     return (
       <div className="chart-tooltip">
@@ -39,7 +39,7 @@ function CustomTooltip({ active, payload, label, comparisonMode }) {
             {comparisonMode
               ? (entry.dataKey === 'cashFlow' ? 'Scenario 1: ' : 'Scenario 2: ')
               : ''}
-            {'$' + Math.round(entry.value).toLocaleString('en-US')}
+            {symbol + Math.round(entry.value).toLocaleString('en-US')}
           </p>
         ))}
       </div>
@@ -65,8 +65,7 @@ function renderLegend(props) {
   );
 }
 
-function CashFlowChart({ data, comparisonMode, disabled }) {
-  // Read theme-aware colors at render time
+function CashFlowChart({ data, comparisonMode, disabled, symbol = '$' }) {
   const gridColor  = getCSSVar('--color-chart-grid')  || '#e2e4e9';
   const refColor   = getCSSVar('--color-text-subtle')  || '#9ca3af';
 
@@ -92,8 +91,8 @@ function CashFlowChart({ data, comparisonMode, disabled }) {
             label={{ value: 'Month', position: 'insideBottomRight', offset: -10, fontSize: 12 }}
             tick={{ fontSize: 12, fill: refColor }}
           />
-          <YAxis tickFormatter={formatYAxis} tick={{ fontSize: 12, fill: refColor }} width={60} />
-          <Tooltip content={<CustomTooltip comparisonMode={comparisonMode} />} />
+          <YAxis tickFormatter={(v) => formatYAxis(v, symbol)} tick={{ fontSize: 12, fill: refColor }} width={60} />
+          <Tooltip content={<CustomTooltip comparisonMode={comparisonMode} symbol={symbol} />} />
           {comparisonMode && (
             <Legend
               content={renderLegend}

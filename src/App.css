@@ -860,3 +860,43 @@ body {
   border-color: var(--color-text-muted);
   color: var(--color-text);
 }
+
+/* ── Currency switcher (inside the form card) ────────── */
+.currency-switcher {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.currency-switcher-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.currency-switcher-label {
+  margin-bottom: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.currency-select {
+  flex: 1;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+  font-size: 0.875rem;
+}
+
+.currency-status {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+.currency-status--loading {
+  color: var(--color-text-muted);
+}
+
+.currency-status--error {
+  color: var(--color-error);
+}

@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { validateValues } from '../utils/validation';
 
-function InputForm({ values, onChange, label, hidePeriod }) {
-  // Track which fields the user has interacted with so we don't show
-  // errors on fields they haven't touched yet.
+function InputForm({ values, onChange, label, hidePeriod, symbol = '$', children }) {
   const [touched, setTouched] = useState({
     initialInvestment: false,
     monthlyRevenue: false,
@@ -11,8 +9,6 @@ function InputForm({ values, onChange, label, hidePeriod }) {
   });
 
   const errors = validateValues(values);
-
-  // Each form needs unique ids to avoid duplicate id issues in comparison mode
   const idPrefix = label ? label.replace(/\s+/g, '-').toLowerCase() + '-' : '';
 
   function handleChange(e) {
@@ -32,14 +28,15 @@ function InputForm({ values, onChange, label, hidePeriod }) {
 
   return (
     <div className={`card${label ? ' card--scenario' : ''}`}>
-      {label ? (
-        <div className="scenario-label">{label}</div>
-      ) : null}
+      {label ? <div className="scenario-label">{label}</div> : null}
       <h2 className="card-title">Investment Parameters</h2>
+
+      {/* Currency switcher slot — only rendered for Scenario 1 */}
+      {children}
 
       <div className="form-group">
         <label className="form-label" htmlFor={`${idPrefix}initialInvestment`}>
-          Initial Investment ($)
+          Initial Investment ({symbol})
         </label>
         <input
           className={fieldClass('initialInvestment')}
@@ -58,7 +55,7 @@ function InputForm({ values, onChange, label, hidePeriod }) {
 
       <div className="form-group">
         <label className="form-label" htmlFor={`${idPrefix}monthlyRevenue`}>
-          Expected Monthly Revenue ($)
+          Expected Monthly Revenue ({symbol})
         </label>
         <input
           className={fieldClass('monthlyRevenue')}
@@ -77,7 +74,7 @@ function InputForm({ values, onChange, label, hidePeriod }) {
 
       <div className="form-group">
         <label className="form-label" htmlFor={`${idPrefix}monthlyCosts`}>
-          Monthly Operating Costs ($)
+          Monthly Operating Costs ({symbol})
         </label>
         <input
           className={fieldClass('monthlyCosts')}

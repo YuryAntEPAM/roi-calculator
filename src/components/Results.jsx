@@ -21,7 +21,7 @@ function MetricCard({ label, value, highlight, accentColor }) {
   );
 }
 
-function ScenarioMetrics({ roi, paybackPeriod, totalNetProfit, monthlyNetProfit, accentColor }) {
+function ScenarioMetrics({ roi, paybackPeriod, totalNetProfit, monthlyNetProfit, accentColor, symbol }) {
   const paybackDisplay =
     paybackPeriod === null ? 'Never' : `${paybackPeriod} month${paybackPeriod !== 1 ? 's' : ''}`;
   const roiDisplay = `${roi.toFixed(1)}%`;
@@ -30,8 +30,8 @@ function ScenarioMetrics({ roi, paybackPeriod, totalNetProfit, monthlyNetProfit,
     <div className="metrics-grid">
       <MetricCard label="Return on Investment" value={roiDisplay} highlight accentColor={accentColor} />
       <MetricCard label="Payback Period" value={paybackDisplay} />
-      <MetricCard label="Total Net Profit" value={formatCurrency(totalNetProfit)} />
-      <MetricCard label="Monthly Net Profit" value={formatCurrency(monthlyNetProfit)} />
+      <MetricCard label="Total Net Profit" value={formatCurrency(totalNetProfit, symbol)} />
+      <MetricCard label="Monthly Net Profit" value={formatCurrency(monthlyNetProfit, symbol)} />
     </div>
   );
 }
@@ -41,6 +41,7 @@ function Results({
   comparisonMode,
   roi2, paybackPeriod2, totalNetProfit2, monthlyNetProfit2,
   disabled,
+  symbol = '$',
 }) {
   if (disabled) {
     return (
@@ -68,6 +69,7 @@ function Results({
               totalNetProfit={totalNetProfit}
               monthlyNetProfit={monthlyNetProfit}
               accentColor={SCENARIO1_COLOR}
+              symbol={symbol}
             />
           </div>
           <div className="comparison-divider" />
@@ -81,6 +83,7 @@ function Results({
               totalNetProfit={totalNetProfit2}
               monthlyNetProfit={monthlyNetProfit2}
               accentColor={SCENARIO2_COLOR}
+              symbol={symbol}
             />
           </div>
         </div>
@@ -98,8 +101,8 @@ function Results({
       <div className="metrics-grid">
         <MetricCard label="Return on Investment" value={roiDisplay} highlight accentColor={SCENARIO1_COLOR} />
         <MetricCard label="Payback Period" value={paybackDisplay} />
-        <MetricCard label="Total Net Profit" value={formatCurrency(totalNetProfit)} />
-        <MetricCard label="Monthly Net Profit" value={formatCurrency(monthlyNetProfit)} />
+        <MetricCard label="Total Net Profit" value={formatCurrency(totalNetProfit, symbol)} />
+        <MetricCard label="Monthly Net Profit" value={formatCurrency(monthlyNetProfit, symbol)} />
       </div>
     </div>
   );
