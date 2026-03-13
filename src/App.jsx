@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTheme } from './hooks/useTheme';
 import InputForm from './components/InputForm';
 import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
@@ -33,6 +34,7 @@ function App() {
   const [values, setValues] = useState(DEFAULT_VALUES);
   const [comparisonMode, setComparisonMode] = useState(false);
   const [values2, setValues2] = useState(DEFAULT_SCENARIO2);
+  const [isDark, toggleTheme] = useTheme();
 
   // Validity checks
   const errors1 = validateValues(values);
@@ -84,6 +86,14 @@ function App() {
           <h1 className="app-title">ROI Calculator</h1>
           <p className="app-subtitle">Enter your numbers to see your return on investment instantly</p>
         </div>
+        <button
+          className="btn-theme-toggle"
+          onClick={toggleTheme}
+          title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {isDark ? '☀️' : '🌙'}
+        </button>
         <button
           className="btn-export-pdf"
           onClick={() => window.print()}

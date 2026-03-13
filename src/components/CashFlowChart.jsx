@@ -10,8 +10,13 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const SCENARIO1_COLOR = '#39f';
+const SCENARIO1_COLOR = '#3399ff';
 const SCENARIO2_COLOR = '#f59e0b';
+
+/** Read a CSS custom property from :root at runtime so it follows the theme. */
+function getCSSVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
 
 function formatYAxis(value) {
   if (Math.abs(value) >= 1000) {
@@ -61,6 +66,10 @@ function renderLegend(props) {
 }
 
 function CashFlowChart({ data, comparisonMode, disabled }) {
+  // Read theme-aware colors at render time
+  const gridColor  = getCSSVar('--color-chart-grid')  || '#e2e4e9';
+  const refColor   = getCSSVar('--color-text-subtle')  || '#9ca3af';
+
   if (disabled) {
     return (
       <div className="card results-disabled">
@@ -77,13 +86,13 @@ function CashFlowChart({ data, comparisonMode, disabled }) {
       <h2 className="card-title">Cumulative Cash Flow</h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data} margin={{ top: 10, right: 20, left: 10, bottom: 10 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e2e4e9" />
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
           <XAxis
             dataKey="month"
             label={{ value: 'Month', position: 'insideBottomRight', offset: -10, fontSize: 12 }}
-            tick={{ fontSize: 12 }}
+            tick={{ fontSize: 12, fill: refColor }}
           />
-          <YAxis tickFormatter={formatYAxis} tick={{ fontSize: 12 }} width={60} />
+          <YAxis tickFormatter={formatYAxis} tick={{ fontSize: 12, fill: refColor }} width={60} />
           <Tooltip content={<CustomTooltip comparisonMode={comparisonMode} />} />
           {comparisonMode && (
             <Legend
@@ -96,9 +105,9 @@ function CashFlowChart({ data, comparisonMode, disabled }) {
           )}
           <ReferenceLine
             y={0}
-            stroke="#9ca3af"
+            stroke={refColor}
             strokeDasharray="6 3"
-            label={{ value: 'Break-even', position: 'insideTopLeft', fontSize: 11, fill: '#9ca3af' }}
+            label={{ value: 'Break-even', position: 'insideTopLeft', fontSize: 11, fill: refColor }}
           />
           <Line
             type="monotone"

@@ -5,22 +5,107 @@
   box-sizing: border-box;
 }
 
-/* ── EPAM Brand Theme ───────────────────────────────
-   Primary blue:   #39f   (#3399ff)
-   Dark navy:      #1a1a2e
-   Surface:        #ffffff
-   Background:     #f4f5f7
-   Text:           #1a1a2e
-   Muted:          #6b7280
-   Border:         #e2e4e9
-   Accent light:   #e8f3ff
-──────────────────────────────────────────────────── */
+/* ── CSS Custom Properties — Light theme (default) ──────────────────
+   All colors live here. Dark overrides are in [data-theme="dark"] below.
+─────────────────────────────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --color-primary:        #3399ff;   /* #39f */
+  --color-primary-hover:  #1a8cff;
+  --color-primary-light:  #e8f3ff;
+  --color-amber:          #f59e0b;
 
+  /* Surfaces */
+  --color-bg:             #f4f5f7;
+  --color-surface:        #ffffff;
+  --color-header-bg:      #1a1a2e;
+  --color-sidebar-bg:     #1a1a2e;   /* table th */
+
+  /* Borders */
+  --color-border:         #e2e4e9;
+  --color-border-input:   #d1d5db;
+  --color-border-focus:   #3399ff;
+  --color-divider:        #3a3a5c;   /* header divider */
+
+  /* Text */
+  --color-text:           #1a1a2e;
+  --color-text-muted:     #6b7280;
+  --color-text-subtle:    #8b93a7;
+  --color-text-label:     #374151;
+  --color-text-on-dark:   #ffffff;
+
+  /* Metric card */
+  --color-metric-bg:      #f4f5f7;
+  --color-metric-border:  #d1d5db;
+  --color-metric-hl-bg:   #1a1a2e;
+  --color-metric-hl-border: #3399ff;
+
+  /* Chart */
+  --color-chart-grid:     #e2e4e9;
+  --color-chart-tooltip-bg: #1a1a2e;
+
+  /* Table */
+  --color-table-header-bg: #1a1a2e;
+  --color-table-row-even:  #f4f5f7;
+  --color-table-row-be:    #dcfce7;
+  --color-table-row-be-border: #86efac;
+  --color-table-be-text:   #166534;
+  --color-table-be-badge:  #16a34a;
+
+  /* Status */
+  --color-positive:       #16a34a;
+  --color-negative:       #dc2626;
+  --color-error:          #ef4444;
+
+  /* Disabled */
+  --color-disabled-border: #d1d5db;
+}
+
+/* ── Dark theme overrides ────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --color-bg:             #0f1117;
+  --color-surface:        #1c1f2b;
+  --color-header-bg:      #0d0f18;
+  --color-sidebar-bg:     #0d0f18;
+
+  --color-border:         #2e3347;
+  --color-border-input:   #3a3f55;
+  --color-divider:        #2e3347;
+
+  --color-text:           #e2e6f0;
+  --color-text-muted:     #8b93a7;
+  --color-text-subtle:    #6b7280;
+  --color-text-label:     #c5cade;
+  --color-text-on-dark:   #e2e6f0;
+
+  --color-metric-bg:      #151824;
+  --color-metric-border:  #3a3f55;
+  --color-metric-hl-bg:   #0d1629;
+  --color-metric-hl-border: #3399ff;
+
+  --color-chart-grid:     #2e3347;
+  --color-chart-tooltip-bg: #0d0f18;
+
+  --color-table-header-bg: #0d0f18;
+  --color-table-row-even:  #151824;
+  --color-table-row-be:    #0f2d1a;
+  --color-table-row-be-border: #166534;
+  --color-table-be-text:   #4ade80;
+  --color-table-be-badge:  #16a34a;
+
+  --color-positive:       #4ade80;
+  --color-negative:       #f87171;
+
+  --color-disabled-border: #3a3f55;
+}
+
+/* ── Body ───────────────────────────────────────────── */
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #f4f5f7;
-  color: #1a1a2e;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   min-height: 100vh;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 /* ── App shell ──────────────────────────────────────── */
@@ -32,7 +117,7 @@ body {
 
 /* ── Header ─────────────────────────────────────────── */
 .app-header {
-  background-color: #1a1a2e;
+  background-color: var(--color-header-bg);
   padding: 1.5rem 2rem;
   margin-bottom: 2rem;
   display: flex;
@@ -41,7 +126,7 @@ body {
 }
 
 .epam-logo-box {
-  background-color: #39f;
+  background-color: var(--color-primary);
   color: #ffffff;
   font-size: 0.9375rem;
   font-weight: 800;
@@ -54,8 +139,12 @@ body {
 .header-divider {
   width: 1px;
   height: 1.75rem;
-  background-color: #3a3a5c;
+  background-color: var(--color-divider);
   flex-shrink: 0;
+}
+
+.header-text {
+  flex: 1;
 }
 
 .app-title {
@@ -68,7 +157,7 @@ body {
 .app-subtitle {
   margin-top: 0.2rem;
   font-size: 0.8125rem;
-  color: #8b93a7;
+  color: var(--color-text-subtle);
 }
 
 /* ── Content wrapper ────────────────────────────────── */
@@ -106,21 +195,22 @@ body {
 
 /* ── Card ────────────────────────────────────────────── */
 .card {
-  background: #ffffff;
+  background: var(--color-surface);
   border-radius: 2px;
   padding: 1.75rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e2e4e9;
-  border-top: 3px solid #39f;
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-primary);
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .card-title {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #6b7280;
+  color: var(--color-text-muted);
   margin-bottom: 1.25rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid #e2e4e9;
+  border-bottom: 1px solid var(--color-border);
   text-transform: uppercase;
   letter-spacing: 0.09em;
 }
@@ -138,7 +228,7 @@ body {
   display: block;
   font-size: 0.75rem;
   font-weight: 700;
-  color: #374151;
+  color: var(--color-text-label);
   margin-bottom: 0.4rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -149,23 +239,23 @@ body {
   padding: 0.625rem 0.875rem;
   font-size: 0.9375rem;
   font-family: inherit;
-  color: #1a1a2e;
-  background: #ffffff;
-  border: 1.5px solid #d1d5db;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border-input);
   border-radius: 2px;
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.2s, color 0.2s;
   appearance: none;
   -webkit-appearance: none;
 }
 
 .form-input:focus {
-  border-color: #39f;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(51, 153, 255, 0.15);
 }
 
 .form-input:hover:not(:focus) {
-  border-color: #9ca3af;
+  border-color: var(--color-text-muted);
 }
 
 .form-select {
@@ -190,56 +280,57 @@ body {
 }
 
 .metric-card {
-  background: #f4f5f7;
-  border: 1px solid #e2e4e9;
-  border-left: 3px solid #d1d5db;
+  background: var(--color-metric-bg);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-metric-border);
   border-radius: 2px;
   padding: 1rem 1.125rem;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .metric-card--highlight {
-  background: #1a1a2e;
-  border: 1px solid #1a1a2e;
-  border-left: 3px solid #39f;
+  background: var(--color-metric-hl-bg);
+  border: 1px solid var(--color-metric-hl-bg);
+  border-left: 3px solid var(--color-metric-hl-border);
 }
 
 .metric-value {
   font-size: 1.625rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--color-text);
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
 
 .metric-card--highlight .metric-value {
-  color: #39f;
+  color: var(--color-primary);
 }
 
 .metric-label {
   font-size: 0.7rem;
   font-weight: 700;
-  color: #6b7280;
+  color: var(--color-text-muted);
   margin-top: 0.35rem;
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
 
 .metric-card--highlight .metric-label {
-  color: #8b93a7;
+  color: var(--color-text-subtle);
 }
 
 /* ── Chart tooltip ───────────────────────────────────── */
 .chart-tooltip {
-  background: #1a1a2e;
+  background: var(--color-chart-tooltip-bg);
   border-radius: 2px;
   padding: 0.625rem 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border-left: 3px solid #39f;
+  border-left: 3px solid var(--color-primary);
 }
 
 .chart-tooltip-month {
   font-size: 0.7rem;
-  color: #8b93a7;
+  color: var(--color-text-subtle);
   margin-bottom: 0.2rem;
   text-transform: uppercase;
   letter-spacing: 0.07em;
@@ -248,7 +339,7 @@ body {
 .chart-tooltip-value {
   font-size: 1rem;
   font-weight: 700;
-  color: #39f;
+  color: var(--color-primary);
 }
 
 /* ── Chart legend ────────────────────────────────────── */
@@ -266,7 +357,7 @@ body {
   gap: 0.4rem;
   font-size: 0.75rem;
   font-weight: 700;
-  color: #6b7280;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
@@ -300,13 +391,13 @@ body {
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #39f;
+  color: var(--color-primary);
   margin-bottom: 0.5rem;
 }
 
 /* Second scenario label in amber */
 .card--scenario:nth-of-type(2) .scenario-label {
-  color: #f59e0b;
+  color: var(--color-amber);
 }
 
 /* Period shared note */
@@ -318,7 +409,7 @@ body {
 
 .period-shared-note {
   font-size: 0.8125rem;
-  color: #9ca3af;
+  color: var(--color-text-muted);
   font-style: italic;
 }
 
@@ -343,8 +434,8 @@ body {
 
 .btn-add-scenario {
   background: transparent;
-  color: #39f;
-  border: 1.5px dashed #39f;
+  color: var(--color-primary);
+  border: 1.5px dashed var(--color-primary);
 }
 
 .btn-add-scenario:hover {
@@ -353,13 +444,13 @@ body {
 
 .btn-remove-scenario {
   background: transparent;
-  color: #9ca3af;
-  border: 1.5px dashed #d1d5db;
+  color: var(--color-text-muted);
+  border: 1.5px dashed var(--color-disabled-border);
 }
 
 .btn-remove-scenario:hover {
-  color: #ef4444;
-  border-color: #ef4444;
+  color: var(--color-error);
+  border-color: var(--color-error);
   background: rgba(239, 68, 68, 0.05);
 }
 
@@ -385,7 +476,7 @@ body {
 
 .comparison-divider {
   width: 1px;
-  background-color: #e2e4e9;
+  background-color: var(--color-border);
   align-self: stretch;
   margin: 0 1.25rem;
 }
@@ -408,24 +499,24 @@ body {
 
 /* ── Validation: error input state ───────────────────── */
 .form-input--error {
-  border-color: #ef4444;
+  border-color: var(--color-error);
   box-shadow: none;
 }
 
 .form-input--error:focus {
-  border-color: #ef4444;
+  border-color: var(--color-error);
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
 }
 
 .form-input--error:hover:not(:focus) {
-  border-color: #ef4444;
+  border-color: var(--color-error);
 }
 
 .form-error {
   margin-top: 0.35rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #ef4444;
+  color: var(--color-error);
   letter-spacing: 0.01em;
 }
 
@@ -438,7 +529,7 @@ body {
 
 .results-disabled-message {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-muted);
   padding: 1.5rem 0 0.5rem;
   text-align: center;
   font-style: italic;
@@ -453,7 +544,7 @@ body {
   justify-content: space-between;
   margin-bottom: 1.25rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid #e2e4e9;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .btn-toggle-table {
@@ -466,8 +557,8 @@ body {
   border-radius: 2px;
   cursor: pointer;
   background: transparent;
-  color: #39f;
-  border: 1.5px solid #39f;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
   transition: background 0.15s, color 0.15s;
   flex-shrink: 0;
 }
@@ -495,15 +586,15 @@ body {
 }
 
 .breakdown-table th {
-  background: #1a1a2e;
-  color: #8b93a7;
+  background: var(--color-table-header-bg);
+  color: var(--color-text-subtle);
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.07em;
   padding: 0.6rem 0.875rem;
   text-align: left;
-  border-bottom: 2px solid #39f;
+  border-bottom: 2px solid var(--color-primary);
 }
 
 /* Scenario group header cells in comparison mode */
@@ -514,33 +605,33 @@ body {
 }
 
 .table-col-group--s1 {
-  color: #39f;
-  border-bottom: 2px solid #39f;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
 }
 
 .table-col-group--s2 {
-  color: #f59e0b;
-  border-bottom: 2px solid #f59e0b;
+  color: var(--color-amber);
+  border-bottom: 2px solid var(--color-amber);
 }
 
 .breakdown-table td {
   padding: 0.55rem 0.875rem;
-  border-bottom: 1px solid #e2e4e9;
-  color: #1a1a2e;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
 }
 
 /* Striped rows */
 .table-row--even td {
-  background: #f4f5f7;
+  background: var(--color-table-row-even);
 }
 
 /* Break-even row highlighted in green */
 .table-row--breakeven td {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--color-table-row-be);
+  color: var(--color-table-be-text);
   font-weight: 600;
-  border-bottom-color: #86efac;
-  border-top: 1px solid #86efac;
+  border-bottom-color: var(--color-table-row-be-border);
+  border-top: 1px solid var(--color-table-row-be-border);
 }
 
 .breakeven-badge {
@@ -550,7 +641,7 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  background: #16a34a;
+  background: var(--color-table-be-badge);
   color: #fff;
   border-radius: 2px;
   padding: 0.1rem 0.35rem;
@@ -562,12 +653,12 @@ body {
 }
 
 .table-cell--positive {
-  color: #16a34a;
+  color: var(--color-positive);
   font-weight: 600;
 }
 
 .table-cell--negative {
-  color: #dc2626;
+  color: var(--color-negative);
   font-weight: 600;
 }
 
@@ -577,19 +668,14 @@ body {
 }
 
 /* ── Export PDF button in the header ─────────────────────────────────── */
-.header-text {
-  flex: 1;
-}
-
 .btn-export-pdf {
-  margin-left: auto;
   padding: 0.5rem 1.125rem;
   font-size: 0.8125rem;
   font-weight: 700;
   font-family: inherit;
   letter-spacing: 0.04em;
   color: #1a1a2e;
-  background: #39f;
+  background: var(--color-primary);
   border: none;
   border-radius: 2px;
   cursor: pointer;
@@ -598,10 +684,34 @@ body {
 }
 
 .btn-export-pdf:hover:not(:disabled) {
-  background: #1a8cff;
+  background: var(--color-primary-hover);
 }
 
 .btn-export-pdf:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* ── Theme toggle button ─────────────────────────────── */
+.btn-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.125rem;
+  height: 2.125rem;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  color: #ffffff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.btn-theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.3);
 }
