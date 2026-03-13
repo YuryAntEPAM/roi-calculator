@@ -5,6 +5,7 @@ import Results from './components/Results';
 import CashFlowChart from './components/CashFlowChart';
 import MonthlyTable from './components/MonthlyTable';
 import PrintReport from './components/PrintReport';
+import EmbedModal from './components/EmbedModal';
 import {
   calcMonthlyNetProfit,
   calcPaybackPeriod,
@@ -14,6 +15,7 @@ import {
   buildTableData,
 } from './utils/calculations';
 import { validateValues, isValid } from './utils/validation';
+import { readParamsFromURL, isEmbedMode } from './utils/embedUrl';
 import './App.css';
 import './print.css';
 
@@ -30,11 +32,16 @@ const DEFAULT_SCENARIO2 = {
   monthlyCosts: 4000,
 };
 
+// Read URL params once at module load — before first render
+const urlParams = readParamsFromURL();
+const embedMode = isEmbedMode();
+
 function App() {
-  const [values, setValues] = useState(DEFAULT_VALUES);
-  const [comparisonMode, setComparisonMode] = useState(false);
-  const [values2, setValues2] = useState(DEFAULT_SCENARIO2);
+  const [values, setValues] = useState(urlParams?.values ?? DEFAULT_VALUES);
+  const [comparisonMode, setComparisonMode] = useState(urlParams?.comparisonMode ?? false);
+  const [values2, setValues2] = useState(urlParams?.values2 ?? DEFAULT_SCENARIO2);
   const [isDark, toggleTheme] = useTheme();
+  const [embedModalOpen, setEmbedModalOpen] = useState(false);
 
   // Validity checks
   const errors1 = validateValues(values);
@@ -79,30 +86,40 @@ function App() {
 
   return (
     <div className="app">
-      <header className="app-header">
-        <div className="epam-logo-box">EPAM</div>
-        <div className="header-divider" />
-        <div className="header-text">
-          <h1 className="app-title">ROI Calculator</h1>
-          <p className="app-subtitle">Enter your numbers to see your return on investment instantly</p>
-        </div>
-        <button
-          className="btn-theme-toggle"
-          onClick={toggleTheme}
-          title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-          aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-        >
-          {isDark ? '☀️' : '🌙'}
-        </button>
-        <button
-          className="btn-export-pdf"
-          onClick={() => window.print()}
-          disabled={resultsDisabled}
-          title={resultsDisabled ? 'Fix form errors before exporting' : 'Save as PDF'}
-        >
-          Export PDF
-        </button>
-      </header>
+      {/* Header is hidden in embed mode so the iframe looks clean */}
+      {!embedMode && (
+        <header className="app-header">
+          <div className="epam-logo-box">EPAM</div>
+          <div className="header-divider" />
+          <div className="header-text">
+            <h1 className="app-title">ROI Calculator</h1>
+            <p className="app-subtitle">Enter your numbers to see your return on investment instantly</p>
+          </div>
+          <button
+            className="btn-theme-toggle"
+            onClick={toggleTheme}
+            title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {isDark ? '☀️' : '🌙'}
+          </button>
+          <button
+            className="btn-export-pdf"
+            onClick={() => window.print()}
+            disabled={resultsDisabled}
+            title={resultsDisabled ? 'Fix form errors before exporting' : 'Save as PDF'}
+          >
+            Export PDF
+          </button>
+          <button
+            className="btn-embed"
+            onClick={() => setEmbedModalOpen(true)}
+            title="Get embed code"
+          >
+            Embed
+          </button>
+        </header>
+      )}
 
       <div className="app-content">
         <main className={`app-layout${comparisonMode ? ' app-layout--comparison' : ''}`}>
@@ -179,6 +196,16 @@ function App() {
         chartData2={chartData2}
         tableData2={tableData2}
       />
+
+      {embedModalOpen && (
+        <EmbedModal
+          values={values}
+          comparisonMode={comparisonMode}
+          values2={values2}
+          isDark={isDark}
+          onClose={() => setEmbedModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
